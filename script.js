@@ -1,42 +1,37 @@
-// List of sound names (same as file names inside /sounds folder)
-const sounds = ["clap", "hihat", "kick", "snare", "tom"];
+const sounds = ["applause", "boo", "gasp", "tada", "victory", "wrong"];
 
-const buttonsDiv = document.getElementById("buttons");
+const container = document.getElementById("buttons");
+
+let currentSound = null;
 
 // Create sound buttons
 sounds.forEach(sound => {
     const btn = document.createElement("button");
-    btn.classList.add("btn");
+    btn.className = "btn";
     btn.innerText = sound;
 
     btn.addEventListener("click", () => {
-        stopAllSounds();
-        const audio = new Audio(`./sounds/${sound}.wav`);
-        audio.play();
-        currentAudio = audio;
+        stopSound();
+        currentSound = new Audio(`./sounds/${sound}.mp3`);
+        currentSound.play();
     });
 
-    buttonsDiv.appendChild(btn);
+    container.appendChild(btn);
 });
 
 // Create STOP button
-let currentAudio = null;
+const stopButton = document.createElement("button");
+stopButton.className = "stop";
+stopButton.innerText = "stop";
 
-const stopBtn = document.createElement("button");
-stopBtn.classList.add("stop");
-stopBtn.innerText = "STOP";
+stopButton.addEventListener("click", stopSound);
 
-stopBtn.addEventListener("click", () => {
-    stopAllSounds();
-});
+container.appendChild(stopButton);
 
-buttonsDiv.appendChild(stopBtn);
-
-// Function to stop audio
-function stopAllSounds() {
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
+// Stop function
+function stopSound() {
+    if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
     }
 }
-
